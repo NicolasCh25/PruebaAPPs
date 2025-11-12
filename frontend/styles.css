@@ -1,0 +1,128 @@
+/* 🎬 Estilos generales */
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background-color: #0d0d0d;
+  color: #f0f0f0;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+/* 🏷️ Título */
+h1 {
+  color: #ffcc00;
+  margin-top: 20px;
+  font-size: 2rem;
+}
+
+/* 🎞️ Selector de género */
+label {
+  font-size: 1.1rem;
+  margin-right: 10px;
+}
+
+select {
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: none;
+  background-color: #1a1a1a;
+  color: #ffcc00;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* 🎬 Contenedor de películas */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  padding: 30px;
+}
+
+/* 🎥 Cada tarjeta */
+.movie {
+  background-color: #1f1f1f;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.movie:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px rgba(255, 204, 0, 0.5);
+}
+
+/* 🎞️ Imagen del póster */
+.movie img {
+  width: 100%;
+  border-radius: 10px;
+}
+
+/* 🎬 Título de película */
+.movie h3 {
+  margin: 10px 0;
+  font-size: 1.1rem;
+  color: #ffcc00;
+}
+
+/* 🎟️ Botones */
+button {
+  display: inline-block;
+  margin: 5px;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button.verMas {
+  background-color: #007bff;
+  color: white;
+}
+
+button.verMas:hover {
+  background-color: #0056b3;
+}
+
+button.favorito {
+  background-color: #ffcc00;
+  color: black;
+}
+
+button.favorito:hover {
+  background-color: #e6b800;
+}
+
+/* 📄 Página de detalles */
+.detalle {
+  max-width: 600px;
+  margin: 30px auto;
+  background-color: #1a1a1a;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+}
+
+.detalle img {
+  width: 100%;
+  border-radius: 10px;
+}
+
+.detalle h1 {
+  color: #ffcc00;
+  margin-bottom: 10px;
+}
+
+.detalle p {
+  text-align: left;
+  line-height: 1.5;
+}
+
+.detalle button {
+  margin-top: 15px;
+  background-color: #007bff;
+  color: white;
+}

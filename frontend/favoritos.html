@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>⭐ Mis Favoritos</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <h1>⭐ Mis Películas Favoritas</h1>
+
+  <button onclick="window.location.href='index.html'">🎬 Volver a Cartelera</button>
+
+  <div id="favoritos" class="grid"></div>
+
+  <script>
+    const API_URL = "http://localhost:3000/api/favoritos";
+    const IMG_PATH = "https://image.tmdb.org/t/p/w500";
+    const contenedor = document.getElementById("favoritos");
+
+    async function cargarFavoritos() {
+      try {
+        const res = await fetch(API_URL);
+        const data = await res.json();
+
+        contenedor.innerHTML = "";
+
+        if (!data.favoritos || data.favoritos.length === 0) {
+          contenedor.innerHTML = "<p>No tienes películas en favoritos aún.</p>";
+          return;
+        }
+
+        data.favoritos.forEach(p => {
+          const div = document.createElement("div");
+          div.classList.add("movie");
+          div.innerHTML = `
+            <img src="${p.poster_path ? IMG_PATH + p.poster_path : ''}" alt="${p.title}">
+            <h3>${p.title}</h3>
+            <button class="verMas">Ver más</button>
+          `;
+
+          // Ver más detalles
+          div.querySelector(".verMas").addEventListener("click", () => {
+            localStorage.setItem("movieId", p.id);
+            window.location.href = "movie.html";
+          });
+
+          contenedor.appendChild(div);
+        });
+      } catch (err) {
+        console.error(err);
+        contenedor.innerHTML = "<p>Error cargando los favoritos.</p>";
+      }
+    }
+
+    cargarFavoritos();
+  </script>
+</body>
+</html>

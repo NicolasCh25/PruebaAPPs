@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Detalles de Película</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="detalle" class="detalle"></div>
+
+  <script>
+    const API_KEY = "2a93dae81163d6374aeb0495b9c17b16";
+    const API_URL = "https://api.themoviedb.org/3";
+    const IMG_PATH = "https://image.tmdb.org/t/p/w500";
+    const movieId = localStorage.getItem("movieId");
+    const detalle = document.getElementById("detalle");
+
+    async function obtenerDetalle() {
+      if (!movieId) {
+        detalle.innerHTML = "<p>Id de película no encontrado.</p>";
+        return;
+      }
+
+      try {
+        const res = await fetch(`${API_URL}/movie/${movieId}?api_key=${API_KEY}&language=es-ES`);
+        const p = await res.json();
+
+        detalle.innerHTML = `
+          <h1>${p.title}</h1>
+          <img src="${p.poster_path ? IMG_PATH + p.poster_path : ''}" alt="${p.title}">
+          <p><strong>Fecha de estreno:</strong> ${p.release_date || 'N/A'}</p>
+          <p><strong>Rating:</strong> ⭐ ${p.vote_average || 'N/A'}</p>
+          <p>${p.overview || ''}</p>
+          <button onclick="window.location.href='index.html'">Volver</button>
+        `;
+      } catch (err) {
+        console.error(err);
+        detalle.innerHTML = "<p>Error obteniendo detalles.</p>";
+      }
+    }
+
+    obtenerDetalle();
+  </script>
+</body>
+</html>
