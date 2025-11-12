@@ -8,38 +8,52 @@ const PORT = process.env.PORT || 3000;
 
 // Middleware
 app.use(express.json());
-app.use(cors()); // ✅ Permite peticiones desde Netlify
+app.use(cors()); // ✅ Permite peticiones desde Netlify o cualquier origen
 
-// 📂 Ruta del archivo db.json
+// 📂 Ruta del archivo db.json 
 const dataPath = path.join(__dirname, "db.json");
 
-// Endpoint GET: obtener favoritos
+// ✅ Asegurar que db.json exista
+if (!fs.existsSync(dataPath)) {
+  fs.writeFileSync(dataPath, JSON.stringify({ favoritos: [] }, null, 2));
+}
+
+// 🟢 Obtener lista de favoritos
 app.get("/api/favoritos", (req, res) => {
-  if (!fs.existsSync(dataPath)) {
-    fs.writeFileSync(dataPath, JSON.stringify({ favoritos: [] }, null, 2));
+  try {
+    const data = JSON.parse(fs.readFileSync(dataPath));
+    res.json(data);
+  } catch (err) {
+    console.error("Error al leer db.json:", err);
+    res.status(500).json({ mensaje: "Error al obtener favoritos" });
   }
-  const data = fs.readFileSync(dataPath);
-  res.json(JSON.parse(data));
 });
 
-// Endpoint POST: agregar a favoritos
+// 🟢 Agregar película a favoritos
 app.post("/api/favoritos", (req, res) => {
-  if (!req.body || !req.body.id) {
-    return res.status(400).json({ mensaje: "Datos inválidos" });
+  try {
+    const body = req.body;
+    if (!body || !body.id) {
+      return res.status(400).json({ mensaje: "Datos inválidos" });
+    }
+
+    const data = JSON.parse(fs.readFileSync(dataPath));
+
+    // Evitar duplicados
+    if (data.favoritos.some(fav => fav.id === body.id)) {
+      return res.status(400).json({ mensaje: "Esa película ya está en favoritos" });
+    }
+
+    data.favoritos.push(body);
+    fs.writeFileSync(dataPath, JSON.stringify(data, null, 2));
+    res.json({ mensaje: "Película agregada a favoritos ✅" });
+  } catch (err) {
+    console.error("Error al guardar favorito:", err);
+    res.status(500).json({ mensaje: "Error al guardar favorito" });
   }
-
-  if (!fs.existsSync(dataPath)) {
-    fs.writeFileSync(dataPath, JSON.stringify({ favoritos: [] }, null, 2));
-  }
-
-  const data = JSON.parse(fs.readFileSync(dataPath));
-  data.favoritos.push(req.body);
-  fs.writeFileSync(dataPath, JSON.stringify(data, null, 2));
-
-  res.json({ mensaje: "Película agregada a favoritos ✅" });
 });
 
-// Iniciar servidor
+// 🚀 Iniciar servidor
 app.listen(PORT, () => {
-  console.log(`Servidor corriendo en http://localhost:${PORT}`);
+  console.log(`✅ Servidor corriendo en http://localhost:${PORT}`);
 });

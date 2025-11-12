@@ -14,7 +14,11 @@
   <div id="favoritos" class="grid"></div>
 
   <script>
-    const API_URL = "http://localhost:3000/api/favoritos";
+    // Si estás en Netlify o en local, esto funcionará en ambos
+    const API_URL = window.location.hostname.includes("netlify.app")
+      ? "https://TU_BACKEND.onrender.com/api/favoritos"   // 🔹 URL de Render
+      : "http://localhost:3000/api/favoritos";            // 🔹 Local
+
     const IMG_PATH = "https://image.tmdb.org/t/p/w500";
     const contenedor = document.getElementById("favoritos");
 

@@ -1,6 +1,7 @@
 const API_KEY = "2a93dae81163d6374aeb0495b9c17b16";
 const API_URL = "https://api.themoviedb.org/3";
 const IMG_PATH = "https://image.tmdb.org/t/p/w500";
+const BACKEND_URL = "https://pruebaapps.onrender.com";
 
 const genreSelect = document.getElementById("genreSelect");
 const moviesContainer = document.getElementById("movies");
