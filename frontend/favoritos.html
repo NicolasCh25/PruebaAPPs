@@ -14,10 +14,9 @@
   <div id="favoritos" class="grid"></div>
 
   <script>
-    // Si estás en Netlify o en local, esto funcionará en ambos
     const API_URL = window.location.hostname.includes("netlify.app")
-      ? "https://pruebaapps.onrender.com/api/favoritos"   // 🔹 URL de Render
-      : "http://localhost:3000/api/favoritos";            // 🔹 Local
+      ? "https://pruebaapps.onrender.com/api/favoritos"
+      : "http://localhost:3000/api/favoritos";
 
     const IMG_PATH = "https://image.tmdb.org/t/p/w500";
     const contenedor = document.getElementById("favoritos");
@@ -43,7 +42,6 @@
             <button class="verMas">Ver más</button>
           `;
 
-          // Ver más detalles
           div.querySelector(".verMas").addEventListener("click", () => {
             localStorage.setItem("movieId", p.id);
             window.location.href = "movie.html";
